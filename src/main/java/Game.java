@@ -4,18 +4,34 @@ public class Game {
     public GuessResult guess(String guessNumber) {
         checkGuessNumberIsValid(guessNumber);
 
-        if (guessNumber.equals(question)) {
-            return new GuessResult(true, 3, 0);
+        if (isSolved(guessNumber)) {
+            return getSolvedResult();
         } else {
-            int strikes = 0;
-            for (int i = 0; i < guessNumber.length(); i++) {
-                if (guessNumber.charAt(i) == question.charAt(i)) {
-                    strikes++;
-                }
-            }
-
-            return new GuessResult(false, strikes, 0);
+            return getUnsolvedResult(guessNumber);
         }
+    }
+
+    private boolean isSolved(String guessNumber) {
+        return guessNumber.equals(question);
+    }
+
+    private GuessResult getSolvedResult() {
+        return new GuessResult(true, 3, 0);
+    }
+
+    private GuessResult getUnsolvedResult(String guessNumber) {
+        int strikes = 0;
+        int balls = 0;
+
+        for (int i = 0; i < guessNumber.length(); i++) {
+            if (question.indexOf(guessNumber.charAt(i)) == i) {
+                strikes++;
+            } else if (question.indexOf(guessNumber.charAt(i)) > -1) {
+                balls++;
+            }
+        }
+
+        return new GuessResult(false, strikes, balls);
     }
 
     private void checkGuessNumberIsValid(String guessNumber) {
