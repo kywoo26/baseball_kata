@@ -30,18 +30,31 @@ class GameTest {
 
     @Test
     void returnSolvedResultIfMatchedNumber() {
-        game.question = "123";
-        GuessResult result = game.guess("123");
+        generateQuestion("123");
+        assertMatchedNumber(game.guess("123"), true, 3, 0);
 
+    }
+
+    @Test
+    void returnSolvedResultIfUnMatchedNumber() {
+        generateQuestion("123");
+        assertMatchedNumber(game.guess("456"), false, 0, 0);
+    }
+
+    private void generateQuestion(String questionNumber) {
+        game.question = questionNumber;
+    }
+
+    private void assertMatchedNumber(GuessResult result, boolean isSolved, int strikes, int balls) {
         assertThat(result).isNotNull();
-        assertThat(result.isSolved()).isEqualTo(true);
-        assertThat(result.getStrikes()).isEqualTo(3);
-        assertThat(result.getBalls()).isEqualTo(0);
+        assertThat(result.isSolved()).isEqualTo(isSolved);
+        assertThat(result.getStrikes()).isEqualTo(strikes);
+        assertThat(result.getBalls()).isEqualTo(balls);
     }
 
     private void assertIllegalArgument(String guessNumber) {
         assertThrows(IllegalArgumentException.class,
                 () -> game.guess(guessNumber));
-    
+
     }
 }
