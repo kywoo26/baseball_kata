@@ -3,5 +3,9 @@ public class Game {
         if (guessNumber == null) {
             throw new IllegalArgumentException();
         }
+
+        if (guessNumber.length() != 3) {
+            throw new IllegalArgumentException();
+        }
     }
 }

@@ -20,9 +20,14 @@ class GameTest {
     }
 
     @Test
-    void throwExceptionWhenInputIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.guess(null);
-        });
+    void throwExceptionWhenInvalidInput() {
+        assertIllegalArgument(null);
+        assertIllegalArgument("12");
+        assertIllegalArgument("1234");
+    }
+
+    private void assertIllegalArgument(String guessNumber) {
+        assertThrows(IllegalArgumentException.class,
+                () -> game.guess(guessNumber));
     }
 }
